@@ -1,0 +1,25 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<h3> <em><b>{{ patient.name }}</b></em>'s Profile <a class="btn btn-default" href="{% url 'edit_patprofile' %}" title="Edit My Profile"><span class="glyphicon glyphicon-pencil"></span></a></h3>
+	<br>
+	<h3 > My Favorites Doctors: </h3>
+	<table>
+	{% for doctor in doctors %}
+		<tr >
+			<td>
+				<img src="/static/images/doc.jpeg" width="80" height="80">
+					<h4> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}  </a><a class="btn btn-default" href="{% url 'remove_favdoc' pk=doctor.pk %}" title="Remove this doctor from my favorite list">Remove</a></h4>			
+			    	<ul>
+				    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
+				    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
+				    	<li> <b>Next Availability: </b>{{ doctor.availability }}</li>
+				    	<li> <b>Location: </b>{{ doctor.street }} ,  {{ doctor.city }} ,  {{ doctor.state }},  {{ doctor.zip }}</li>
+				    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
+				    </ul>
+    		</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endblock %}

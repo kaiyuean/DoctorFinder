@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Doctor Finder</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'main.css' %}">
+    </head>
+    <body>
+        <div class="nav"> 
+            <a href="{% url 'index' %}">Home</a> /
+            <a href="{% url 'sign_up' %}">Sign up!</a> /
+            <a href="{% url 'login' %}">Login</a> /
+            {% if user %}
+            <a href="{% url 'my_profile' %}">My Profile</a>
+            {% endif %} 
+        </div>
+    	<div>
+            <h1 class="title">Doctor <img src="/static/images/doctor.png" width="80" height="120"> Finder</h1>
+            
+        </div>
+        {% block content %}
+        {% endblock content %}
+        <script src="{% static main.jss %}"> </script>
+    </body>
+</html>

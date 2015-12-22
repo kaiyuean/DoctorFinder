@@ -1,0 +1,12 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<h3> Edit Profile:</h3>
+<form class="form" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save changes" class="btn btn-default"/>
+</form>
+
+{% endblock content %}

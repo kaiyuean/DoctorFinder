@@ -1,0 +1,86 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<h3> <em><b>{{ doctor.username.name }}</b></em> Profile Page :
+	<!-- this link should only appear if a doctor is logged in... -->
+    	{% if user.type == "Doctor" %}
+        	<a class="btn btn-default" href="{% url 'edit_docprofile' pk=doctor.pk %}" title="Edit Profile"><span class="glyphicon glyphicon-pencil"></span></a>
+        {% endif %}
+        <!-- this link should only appear if a patient is logged in... -->
+		{% if user.type == "Patient" %}
+			<a class="btn btn-default" href="{% url 'add_favorite' pk=doctor.pk %}" title="Add this doctor to my favorite doctors list">Add to Favorite</a>	
+		{% endif %}
+</h3>
+
+{% if messages %}
+<ul class="alert">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+	<div class="container">
+		<h3> Basic Info. :</h3>
+    	<ul>
+	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
+	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
+	    	<li> <b>Next Availability: </b>{{ doctor.availability }}</li>
+	    	<li> <b>Office Hours: </b>{{ doctor.officeHours }}</li>
+	    	<li> <b>Location: </b>{{ doctor.street }}, {{ doctor.city }}, {{ doctor.state }}, {{ doctor.zip }}</li>
+	    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
+	    </ul>
+	</div>
+    
+    <div class="container">
+    	<h3> Address map :</h3>
+	    <div class="map">  	
+	     {{ form.map }}
+		 {{ form.media.js }}
+	    </div>
+    </div>
+
+    <div class="container">
+    	<h3> Bio</h3>
+    	<ul>
+	    	<li> <b>Education: </b> {{ doctor.education }}</li> 
+	    	<li> <b>Awards: </b>{{ doctor.awards }}</li> 
+	    	<li> <b>Experience: </b>{{ doctor.experience }}</li>
+	    </ul>
+    </div>
+   
+    <div class="container">
+    	<h3> Insurance Accepted :</h3>
+		    <ol>
+    		{% for insurance in insurances %}
+			    	<li> {{ insurance.name }}</li> 
+			{% endfor %}
+			</ol>
+    </div>
+    
+    <div class="container">
+    	<h3> Reviews :
+		<!-- this link should only appear if a patient is logged in... -->
+    		{% if user.type == "Patient"%}
+    		<a class="btn btn-default" href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a>
+    		{% endif %}
+    	</h3>
+    </div>	
+    		<table>
+    			{% for review in reviews %}
+		    	<tr >
+					<td>
+				    	<ul>
+					    	<li> <b>Posted By: </b> {{ review.patient.name }}</li> 
+					    	<li> <b>Date: </b>{{ review.date }}</li>
+					    	<li> <b>Rating: </b>{{ review.rating }}</li> 
+					    	<li> <b>Comment: </b>{{ review.comment }}</li>
+					    </ul>
+					</td>
+				</tr>
+				{% endfor %}
+
+{% endblock %}

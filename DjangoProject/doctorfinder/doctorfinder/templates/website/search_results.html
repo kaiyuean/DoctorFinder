@@ -1,0 +1,37 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<h3> Search results for <em><b>{{ doctors.speciality }}</b></em> doctors in <em><b>{{ doctors.city }} :</b></em> </h3>
+
+<form class="form" method="POST">
+	{% csrf_token %}
+	{{ form.as_p}}
+</form>
+<table> 
+{% for doctor in doctors.results %}
+
+	{% now "Y-m-d" as current_date %}
+	
+	{% if form.cleaned_data.choice_field == 'Availability' and doctor.availability.isoformat < current_date %}
+	
+	{% else %}
+		<tr >
+			<td>
+				<img src="/static/images/doc.jpeg" width="80" height="80">
+			    <h4> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h4>
+			    	<ul>
+				    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
+				    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
+				    	<li> <b>Next Availability: </b>{{ doctor.availability }}</li>
+				    	<li> <b>Location: </b>{{ doctor.street }} ,  {{ doctor.city }} ,  {{ doctor.state }},  {{ doctor.zip }}</li>
+				    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
+				    </ul>
+			</td>
+		</tr>
+    {% endif %}
+
+{% endfor %}
+</table> 
+
+{% endblock %}
